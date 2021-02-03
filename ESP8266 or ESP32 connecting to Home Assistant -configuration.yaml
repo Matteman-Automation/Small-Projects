@@ -1,0 +1,25 @@
+mqtt:
+  broker: 127.0.0.1
+  username: [your MQTT-Broker username]
+  password: [your MQTT-Broker password]
+  client_id: home-assistant
+
+
+sensor:
+  - platform: mqtt
+    state_topic: "Office/test/number"
+    name: "nr. LEDs on"
+
+  - platform: mqtt
+    state_topic: "Office/test/text"
+    name: "txt. LEDs on"
+
+switch:
+  - platform: mqtt
+    name: Office_test_switch
+    state_topic: "Office/test/switch"
+    command_topic: "Office/test/switch"
+    payload_on: "aan"
+    payload_off: "uit"
+    state_on: "aan"
+    state_off: "uit"
