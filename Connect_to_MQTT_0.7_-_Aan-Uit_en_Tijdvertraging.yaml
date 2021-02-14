@@ -1,0 +1,27 @@
+mqtt:
+  broker: 127.0.0.1
+  username: MQTTHome
+  password: Home@48
+  client_id: home-assistant
+
+
+
+
+switch:
+  - platform: mqtt
+    name: Green1
+    state_topic: "Office/test/Green1"
+    command_topic: "Office/test/Green1"
+    payload_on: "1"
+    payload_off: "0"
+    state_on: "1"
+    state_off: "0"
+
+  - platform: mqtt
+    name: Green2
+    state_topic: "Office/test/Green2"
+    command_topic: "Office/test/Green2"
+    payload_on: "aan"
+    payload_off: "uit"
+    state_on: "aan"
+    state_off: "uit"
