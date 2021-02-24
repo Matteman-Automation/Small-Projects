@@ -71,18 +71,26 @@ void ConnectWiFi() {
 
 void ConnectMQTT() {
   // Recconnect to the MQTT server
-  Serial.println("Attempting Reconnect MQTT connection...");
-  // Attempt to connect
-  while (!client.connect(mqtt_server, mqtt_user, mqtt_password) && MQTTTry < 5 ) {
-    digitalWrite(LEDBlue, HIGH);
-    ++MQTTTry;
-    Serial.println("No MQTT, Retry");
-    delay(500);
-    digitalWrite(LEDBlue, LOW);
-    delay(500);    
-  } 
-  MQTTTry = 0;
-  Serial.println("MQTT end loop.");
+  while (!client.connected() && MQTTTry < 5 ) {
+      Serial.print("Attempting MQTT connection...");
+      ++MQTTTry;
+      // Create a random client ID
+      String clientId = "ESP8266Client-";
+      clientId += String(random(0xffff), HEX);
+      // Attempt to connect
+      if (client.connect(clientId.c_str(), mqtt_user, mqtt_password)) {
+        Serial.println("connected");
+        // Once connected, publish an announcement...
+        client.publish("outTopic", "hello world");
+        // ... and resubscribe
+        client.subscribe("inTopic");
+      } else {
+        Serial.print("failed, rc=");
+        Serial.print(client.state());
+        Serial.println(" try again in 5 seconds");
+        // Wait 5 seconds before retrying
+        delay(5000);
+    }
 }
 
 void loop() {
