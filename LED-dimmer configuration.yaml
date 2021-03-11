@@ -1,0 +1,44 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+mqtt:
+  broker: 127.0.0.1
+  username: MQTTHome
+  password: Home@48
+  client_id: home-assistant
+
+    
+light:
+  - platform: mqtt
+    name: 'Office RGB light'
+    state_topic: 'Office/rgb/light/status'
+    command_topic: 'Office/rgb/light/switch'
+    brightness_state_topic: 'Office/rgb/brightness/status'
+    brightness_command_topic: 'Office/rgb/brightness/set'
+    rgb_state_topic: 'Office/rgb/rgb/status'
+    rgb_command_topic: 'Office/rgb/rgb/set'
+    brightness_scale: 100
+    optimistic: false
+    
+  - platform: mqtt
+    name: "Office light"
+    state_topic: "office/light/status"
+    command_topic: "office/light/switch"
+    brightness_state_topic: 'office/light/brightness/status'
+    brightness_command_topic: 'office/light/brightness/set'
+    qos: 0
+    payload_on: "ON"
+    payload_off: "OFF"
+    optimistic: false
+
+
